@@ -1,17 +1,20 @@
 def start
-	puts "Welcome to Palace Mystery. You have heard about a valuable treasure that is hidden in this palace."
+	puts "\n\nWelcome to Palace Mystery. You have heard about a valuable treasure that is hidden in this palace."
 	puts "You only know that it is in the 'throne' room."
 	puts "You can look at your inventory at any time by typing 'inventory'"
 	puts "Sometimes you can look at things that are not options, but have been mentioned when you look around. Best to check those things."
 	puts "Enjoy!"
-	puts "~~~~~~~~~~~~~"
+	
+
+	# Goes to the first place, outside.
+	outside
 end
 def outside
 
-	puts "You stand outside, you can: "
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	puts "You are standing outside the palace. You can: "
 	puts "1. look around"
 	
-
 	while true #loops forever, but thats OK because different options take you out into differnt methods
 		
 		print "> "
@@ -41,15 +44,13 @@ def outside
 					@inventoryA << "small key"
 					puts "The key was added to your inventory"
 			end#ends duplicate item if check
-
-					
+	
 		else
 			puts "I don't understand that. Try again."
 		end #if end
 
 	end # while end
 	
-
 end# method end
 
 def foyer_room
@@ -80,9 +81,6 @@ def foyer_room
 		else
 			puts "I don't know what that means."
 		end #end if
-
-
-
 
 	end #end while
 
@@ -128,11 +126,6 @@ def painting_room
 			puts "I don't know what that is..."
 		end
 
-
-			
-						
-					
-		
 	end #end of while
 end #end of painting room
 
@@ -202,33 +195,104 @@ def long_balcony
 				puts "It looks like it's locked. I don't have a key yet. I could have swarn I saw something like this outside..."
 			end #ends if
 
-		elsif action.include? "look at box"
+		elsif action.include? "look at the box"
 			puts "There is a small wooden box at the end of the balcony near the throne room door. I almost missed it. I wonder what is in it. It looks locked, but not with a key lock."
-				elsif action.include? "open the box"
-					puts "You try to open the box by forcing it open. It doesn't budge. There is a 'lock' on the fron of it. As well as a keypad with numbers 1 through to 9 and 0. There is a tiny incription on the front."
-					puts "\"Solve this equation and enter in the correct answer to open the box.\""
-					puts ""
+		elsif action.include? "open the box"
+			puts "You try to open the box by forcing it open. It doesn't budge. There is a 'lock' on the front of it. As well as a keypad with numbers 1 through to 9 and 0. There is a tiny inscription on the front."
+			puts "\"Solve this equation and enter in the correct answer to open the box.\""
+			puts "You look down and on a little gold panel, the equation is incribed: "
+			puts " 7 + ( 6 x 5 + 3 )"
+			puts "Oh great, junior school maths. Well let's give it a shot!"
+			print "> "
+			answer = $stdin.gets.chomp.to_i
 
+
+			##checks answer
+			while true			
+				if answer == 40
+					puts "You got it! The latch clicks open and you see a Carved Golden Key. This looks important."
+					@inventoryA << "Carved Golden Key"
+					puts "The Carved Golden Key has been added to your inventory"
+					break
+					else
+						puts "Hmm, no that doesn't look right. You think back to your school days. 'Wasn't Order or Operations a thing?'"
+				end
+			end #ends answer checking while 
+
+		elsif action.include? "inventory"
+				inventory("balcony")
 
 		end #ends parent if
 	end #ends while
 end #ends method
 
 def throne_room
-	puts "throne room works"
+	puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	puts "You enter the Throne Room. You've heard much about this room and you think that the secret area is in here somewhere. You can: "
+	puts "1. look around"
+	puts "2. go back" 
+
+	while true
+		print "> "
+		action = $stdin.gets.chomp
+
+		if action.include? "look around"
+			puts "You are very impressed by the size of this room. Very elegant. Lots of small gold statues on little pedistals. Gold paint design on the wall paper. There is a large goldern throne at the end of the long room ontop of some stairs. There is also a long red carpet runner stretching the length of the room which connects from this door to the throne stairs. The carpet is ruffled in some places. I should check that out. You can: "
+			puts "1. look at the throne"
+		elsif action.include? "go back"
+				long_balcony
+		elsif action.include? "look at carpet"
+			puts "You have a look at this red carpet runner. It is very bunched up in a few places. You look at the area of it that is closest to you. You notice that some of it has been folded back and there is a lump that is exposing something underneath it."
+			puts "You walk over and throw back the carpet. Yep, someone has definitely pulled this back recently"
+			puts "You see an item on the ground infront of you. Gold."
+			@inventoryA << "Golden Baton"
+			puts "The Golden Baton has been added to your inventory"
+		elsif action.include? "look at the throne"
+			puts "This is a huge golden throne. Really epic! Someone very important must have sat here a long time ago. You walk over to it and sit in it. What a view!"
+			puts "You shift yourself around and you notice a small button near your thigh on the inside of the arm rest. It's a little golden button. Is everything in this place gold?"
+			puts "You decide to press it, not expecting anything to happen, but you hear a thud behind you"
+			puts "You flip around and notice dust has now settled on a panel in the back wall"
+		elsif action.include? "look at panel"
+			puts "You walk over to the panel. It is definitely off the wall a bit. You take the wood panelling off the wall and there is a large circle made of metal. In the circle, there are 3 grooves. In the shapes of a block, a baton and a key. I wonder if I should put something in there. You can: "
+			puts "1. try items"
+			puts "2. go back"
+			elsif action.include? "try items"
+				if (@inventoryA & @keysA == @keysA) ? true : false
+					success
+
+				else
+					puts "Hmm, it seems as if you don't have all the items you need. Maybe if you go back and check the other rooms. Take note of the area when you look around."
+				end
+			elsif action.include? "inventory"
+					inventory("throne")
+												
+				
+					
+		end
+	end
+
 end #ends throne room
 
+def success
+	puts "The panel turns around like a giant key turning in a door. Dust comes out of the sides and the door flies open. You are looking at a large room that is lit by a sky light."
+	puts "The room is full of little gold statues, gems and diamonds. You have a big grin on your face as you say 'I did it!'. You sure did, son. You sure did.\n\n\n"
+	puts "Thanks for playing!"
+	exit(0)
+end
+
+# Enters the inventory system. Lists the contents of the array (item list) as well as getting a parameter when you are
+# passed here to let it know where you came from. So that when you exit, it returns you.
 def inventory(origin)
 	puts "~~~~~~~~~~~~"
 	puts "Welcome to your inventory"
 
 	#removes any duplicates if there are any
 	#more of a fail safe after the error check that is performed before you receive an item 
-	@inventoryA = @inventoryA.uniq
+	#@inventoryA = @inventoryA.uniq
 
 	while true
 		
-		puts "Items or Weapons or Exit?"
+		puts "Items or Exit?"
 		print "> "
 		action = $stdin.gets.chomp
 
@@ -237,17 +301,10 @@ def inventory(origin)
 			if @inventoryA.any?
 		 		puts "Here is a list of items you currently have: "
 				puts "#{@inventoryA}\n\n"
-			elsif !@inventoryA.any?
+			elsif @inventoryA.empty?
 				puts "You have no items in your inventory.\n\n"
 		 	end 
 
-		elsif action.include? "weapons"
-			if @weaponsA.any?
-				puts "Here is a list of weapons you currently have: "
-				puts "#{@weaponsA}"
-			elsif !@weaponsA.any?
-					puts "You have no weapons in your inventory.\n\n"
-			end
 		elsif action.include? "exit"
 			break
 				
@@ -257,17 +314,13 @@ def inventory(origin)
 
 	end #ends the while
 
-	
-
 	 puts "Would you like to go back to where you were?"
 
 	 print "> "
 	 action = $stdin.gets.chomp
 
-
 	 if action.include? "yes"
 
-	 	
 	 	if origin.include? "painting"
 	 		painting_room
 	 	elsif origin.include? "outside"
@@ -276,18 +329,23 @@ def inventory(origin)
 	 				foyer_room
 	 			elsif origin.include? "bedroom"
 	 					bedroom
+	 				elsif origin.include? "balcony"
+	 					long_balcony
+	 				elsif origin.include? "throne"
+	 					throne_room
+	 						
+	 						
 	 	end #end child if
 	 else
 	 	inventory(origin)
 	 end
 
 	 #check the origin and sends you back
-	 
 	
-end
+end # ends inventory
 
+# Initiates the inventory array as empty
 @inventoryA = []
-@weaponsA = []
-
+@keysA = ["Carved Golden Block", "Carved Golden Key", "Golden Baton"]
+# Runs the first method, the starting instructions.
 start
-outside
